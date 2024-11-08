@@ -1,4 +1,4 @@
-package com.capgemini.cartservice.resource;
+package com.capgemini.cartservice.controller;
 
 import com.capgemini.cartservice.dto.CartDTO;
 
@@ -19,19 +19,19 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/cart")
-public class CartResource {
+public class CartController {
 
 	@Autowired
 	private CartService cartService;
 	
-	@Operation(summary = "Get All Cards")
+	@Operation(summary = "Display All Cart Items")
     @GetMapping
 	public ResponseEntity<List<CartDTO>> getAllCarts() {
 		return new ResponseEntity<>(cartService.getAllCarts(), HttpStatus.NOT_FOUND);
 	}
 
 	
-	@Operation(summary = "Add Cart")
+	@Operation(summary = "Add to Cart")
 	@PostMapping("/add")
 	public ResponseEntity<CartDTO> addCart(@RequestBody Cart cart) {
 
@@ -41,24 +41,24 @@ public class CartResource {
 		return new ResponseEntity<>(convertEntityToDto, HttpStatus.BAD_REQUEST);
 	}
     
-	@Operation(summary = "Get Cart Id")
+	@Operation(summary = "Get Cart item by Id")
 	@GetMapping("/{id}")
-	public ResponseEntity<CartDTO> getCart(@PathVariable int id) {
+	public ResponseEntity<CartDTO> getCartById(@PathVariable int id) {
 		CartDTO cartById = cartService.getCartById(id);
 
 		return new ResponseEntity<>(cartById, HttpStatus.NOT_FOUND);
 
 	}
     
-	@Operation(summary = "Update Cart")
-	@PutMapping
-	public ResponseEntity<CartDTO> updateCart(@RequestBody Cart cart) {
-
-		CartDTO updateCart = cartService.updateCart(cart);
-		return new ResponseEntity<>(updateCart, HttpStatus.NOT_FOUND);
+	@Operation(summary = "Update Cart by Id")
+	@PutMapping("update/{id}")
+	public ResponseEntity<String> updateCart(@RequestBody Cart cart, @PathVariable int id) {
+		
+		cartService.updateCart(cart,id);
+		return new ResponseEntity<>("Updated successfully!", HttpStatus.CREATED);
 	}
 
-	@Operation(summary = "Delete Cart")
+	@Operation(summary = "Delete Cart item by Id")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteCart(@PathVariable int id) {
 		cartService.deleteCart(id);

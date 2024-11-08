@@ -1,4 +1,4 @@
-package com.exampleDemo;
+package com.og.capgemini.cartservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

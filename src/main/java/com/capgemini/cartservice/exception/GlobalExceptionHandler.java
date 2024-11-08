@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception ex) {
+    @ExceptionHandler(CartServiceException.class)
+    public ResponseEntity<String> handleException(CartServiceException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<String> handleExceptionnNotFound(CartNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     // Add more specific exception handlers if needed
 }
